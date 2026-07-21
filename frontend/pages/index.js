@@ -11,13 +11,13 @@ export default function Home() {
     setResponse('');
 
     try {
-      const res = await fetch('https://n8n.yourdomain.com/webhook/ai-agent', {
+      const res = await fetch('/api/agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
-      setResponse(data.response || 'No response returned.');
+      setResponse(data.agent_response || data.response || 'No response returned.');
     } catch (err) {
       setResponse('Error communicating with AI Agent.');
     } finally {
@@ -38,11 +38,11 @@ export default function Home() {
           required
         />
         <button type="submit" disabled={loading} style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          {loading ? 'Processing...' : 'Send to Agent'}
+          {loading ? 'Sending...' : 'Send to Agent'}
         </button>
       </form>
       {response && (
-        <div style={{ marginTop: '20px', padding: '15px', background: '#f4f4f4', borderRadius: '5px' }}>
+        <div style={{ marginTop: '20px', padding: '10px', background: '#f4f4f4', borderRadius: '5px' }}>
           <strong>Agent Output:</strong>
           <p>{response}</p>
         </div>
